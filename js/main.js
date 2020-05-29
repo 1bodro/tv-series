@@ -15,7 +15,6 @@ const modalDesc =modal.querySelector('.description');
 const modalLink =modal.querySelector('.modal__link');
 const genresList =modal.querySelector('.genres-list');
 
-
 const DBservice = class {
     getData = (url, callback) => {
         fetch(url)
@@ -80,6 +79,15 @@ const renderCard = data => {
     tvShowList.innerHTML += cardsNode;
 }
 
+const updateModal = data => {
+    modalImg.src = baseImgPath + data.poster_path;
+    modalTitle.innerHTML = data.name;
+    modalRaiting.innerHTML = data.vote_average;
+    modalDesc.innerHTML = data.overview;
+    modalLink.href = data.homepage;
+    genresList.innerHTML = data.genres.reduse((acc, item) => `${acc} <li>${item.name}</li>`,'');
+}
+
 //events
 
 hamburger.addEventListener('click', () => {
@@ -110,10 +118,12 @@ leftMenu.addEventListener('click', e => {
 tvShowList.addEventListener('click', e => {
     e.preventDefault();
     const card = e.target.closest('.tv-card');
-
     if (card) {
-        document.body.style.overflow = 'hidden';
-        modal.classList.remove('hide');
+        service.getData('card.json', promise => {
+            updateModal(promise);
+            document.body.style.overflow = 'hidden';
+            modal.classList.remove('hide');
+        });
     }
 });
 
@@ -121,9 +131,6 @@ tvShowList.addEventListener('mouseover', _toggleImgSrc);
 tvShowList.addEventListener('mouseout', _toggleImgSrc);
 
 modal.addEventListener('click', e => {
-
-    service.getData('.card.json', response => console.log(response));
-
     if (e.target.closest('.cross') || e.target.classList.contains('modal')) {
         document.body.style.overflow = '';
         modal.classList.add('hide');
