@@ -1135,6 +1135,21 @@ main {
     -webkit-animation-name: uqlrk4cch;
     animation-name: uqlrk4cch;
 }
+.request-error {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 32px;
+}
+
+.request-error__title {
+    margin: 16px 0;
+}
 
 @-webkit-keyframes uqlrk4cch {
     65% {
